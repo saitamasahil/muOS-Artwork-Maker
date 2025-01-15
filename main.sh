@@ -37,13 +37,22 @@ magick temp_screenshot.png -gravity center -background none -extent 640x480 -cha
 # Step 3: Apply the mask to the screenshot
 magick temp_screenshot_opacity.png "$mask" -alpha on -compose DstIn -composite masked_screenshot.png
 
-# Step 4: Prepare the wheel image
-# Resize the wheel without the white border
-magick "$wheel" -resize 150x150 \
-  -alpha set -background none \
-  \( +clone -background black -shadow 50x5+8+8 \) \
-  +swap -background none -layers merge \
-  wheel_with_shadow.png
+# Step 4: Ask if user wants to add shadow to the wheel icon
+read -p "Do you want to add a shadow to the wheel icon? (Y/n): " add_shadow
+
+if [[ "$add_shadow" =~ ^[Yy]$ ]]; then
+  # Add shadow to the wheel image
+  magick "$wheel" -resize 150x150 \
+    -alpha set -background none \
+    \( +clone -background black -shadow 50x5+8+8 \) \
+    +swap -background none -layers merge \
+    wheel_with_shadow.png
+else
+  # No shadow, just resize the wheel image
+  magick "$wheel" -resize 150x150 \
+    -alpha set -background none \
+    wheel_with_shadow.png
+fi
 
 # Step 5: Composite the wheel onto the masked screenshot
 # Position the wheel at the bottom-right corner with a small offset
