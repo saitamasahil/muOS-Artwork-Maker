@@ -2,7 +2,7 @@
 # muOS Artwork Scraper (Manual Version)
 
 ## Description
-This script allows users to manually scrape artwork for systems like NES, SNES, and more. It is particularly useful when the automated tool [Scrappy](https://github.com/gabrielfvale/scrappy) fails to generate the required 3px dither art. The script requires the user to provide `screenshot.png` (the base image) and `wheel.png` (the logo or box image of a ROM/game).
+This script for muOS allows users to manually scrape artwork for systems like NES, SNES, and more. It is particularly useful when the automated tool [Scrappy](https://github.com/gabrielfvale/scrappy) fails to generate the required 3px dither art. The script requires the user to provide `screenshot.png` (the base image) and `wheel.png` (the logo or box image of a ROM/game).
 
 While Scrappy can generate artwork automatically for many systems, this script offers manual intervention when Scrappy does not work as expected. Additionally, you can use this script to generate artwork for a system itself.
 
@@ -32,6 +32,7 @@ While Scrappy can generate artwork automatically for many systems, this script o
      https://github.com/saitamasahil/muOS-Artwork-Scraper-Manual-Version-.git
      ```
    - Place `screenshot.png`, and `wheel.png` in the same directory as the script.
+   - You can find an example folder in the repository that includes sample `screenshot.png`, `wheel.png`, and `output.png` for reference.
    - Run the script:
      ```
      chmod +x main.sh && ./main.sh
@@ -54,7 +55,7 @@ While Scrappy can generate artwork automatically for many systems, this script o
    - `wheel.png` can be a logo or a box art image of a ROM/game. If you want to use the wheel as an icon, you can use [Flaticon](https://www.flaticon.com/) to find icons. Alternatively, you can use a box art image of the ROM/game.
 
 ## Why Use This Script?
-- **Manual Artwork Generation**: If Scrappy fails to generate the 3px dither art, this script lets you manually create artwork for your muOS systems.
+- **Manual Artwork Generation**: If Scrappy fails to generate the 3px dither art, this script lets you manually create artwork for your games. Additionally, you can use this script to generate artwork for a system itself.
 - **Customization**: You can adjust the `wheel.png` and `screenshot.png` to generate artwork tailored to your needs.
 
 ## License
