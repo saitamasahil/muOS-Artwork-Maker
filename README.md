@@ -2,7 +2,7 @@
 # muOS Artwork Scraper (Manual Version)
 
 ## Description
-This script for muOS allows users to manually scrape artwork for systems like NES, SNES, and more. It is particularly useful when the automated tool [Scrappy](https://github.com/gabrielfvale/scrappy) fails to generate the required 3px dither art. The script requires the user to provide `screenshot.png` (the base image) and `wheel.png` (the logo or box image of a ROM/game).
+This script for muOS users allows to manually scrape artwork for systems like NES, SNES, and more. It is particularly useful when the automated tool [Scrappy](https://github.com/gabrielfvale/scrappy) fails to generate the required 3px dither art. The script requires the user to provide `screenshot.png` (the base image) and `wheel.png` (the logo or box image of a ROM/game).
 
 While Scrappy can generate artwork automatically for many systems, this script offers manual intervention when Scrappy does not work as expected. Additionally, you can use this script to generate artwork for a system itself.
 
@@ -29,7 +29,7 @@ While Scrappy can generate artwork automatically for many systems, this script o
 2. **Run the Script**:
    - Clone the repo:
      ```
-     https://github.com/saitamasahil/muOS-Artwork-Scraper-Manual-Version-.git
+     git clone https://github.com/saitamasahil/muOS-Artwork-Scraper-Manual-Version-.git
      ```
    - Place `screenshot.png`, and `wheel.png` in the same directory as the script.
    - You can find an example folder in the repository that includes sample `screenshot.png`, `wheel.png`, and `output.png` for reference.
