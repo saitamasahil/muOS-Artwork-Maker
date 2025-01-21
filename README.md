@@ -16,14 +16,6 @@ While Scrappy can generate artwork automatically for many systems, this script o
   - For Linux (Fedora): `sudo dnf install zenity`
   - For macOS: `brew install zenity`
 
-## App Interface Screenshots
-![Screenshot0](screenshot/a0.png)
-![Screenshot1](screenshot/a1.png)
-![Screenshot2](screenshot/a2.png)
-![Screenshot3](screenshot/a3.png)
-![Screenshot4](screenshot/a4.png)
-![Screenshot5](screenshot/a5.png)
-
 ## muOS Interface with Generated Artwork
 ![Screenshot0](screenshot/s0.png)
 ![Screenshot1](screenshot/s1.png)
@@ -75,6 +67,14 @@ While Scrappy can generate artwork automatically for many systems, this script o
 ## Why Use This Script?
 - **Manual Artwork Generation**: If Scrappy fails to generate the 3px dither art, this script lets you manually create artwork for your games. Additionally, you can use this script to generate artwork for a system itself.
 - **Customization**: You can adjust the `Logo/Icon/Boxart` and `Base Image` to generate artwork tailored to your needs.
+
+## App Interface Screenshots
+![Screenshot0](screenshot/a0.png)
+![Screenshot1](screenshot/a1.png)
+![Screenshot2](screenshot/a2.png)
+![Screenshot3](screenshot/a3.png)
+![Screenshot4](screenshot/a4.png)
+![Screenshot5](screenshot/a5.png)
 
 ## License
 This script is licensed under the GPLv3 License. See the [LICENSE](LICENSE) file for details.
