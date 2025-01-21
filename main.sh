@@ -28,11 +28,35 @@ if [[ ! -f "$screenshot" || ! -f "$mask" || ! -f "$wheel" ]]; then
   exit 1
 fi
 
-# Step 1: Crop the screenshot to 4:3 aspect ratio (center crop)
-magick "$screenshot" -resize 640x480^ -gravity center -crop 640x480+0+0 +repage temp_screenshot.png
+# Ask the user to select a resolution
+echo "Select a resolution from the list below:"
+echo "1. 320x240 (QVGA, 4:3)"
+echo "2. 480x320 (3:2)"
+echo "3. 640x480 (VGA, 4:3)"
+echo "4. 720x480 (3:2)"
+echo "5. 800x480 (16:9)"
+echo "6. 1280x800 (16:10)"
+read -p "Enter the number corresponding to your choice: " choice
+
+# Set default width, height, and scale factor for wheel size
+case $choice in
+  1) width=320; height=240; wheel_size=75 ;;    # QVGA
+  2) width=480; height=320; wheel_size=100 ;;   # 3:2
+  3) width=640; height=480; wheel_size=150 ;;   # VGA (default, original size)
+  4) width=720; height=480; wheel_size=160 ;;   # 3:2
+  5) width=800; height=480; wheel_size=170 ;;   # 16:9
+  6) width=1280; height=800; wheel_size=250 ;;  # 16:10
+  *) 
+    echo "Invalid selection. Exiting."
+    exit 1
+    ;;
+esac
+
+# Step 1: Crop the screenshot to the selected resolution (center crop)
+magick "$screenshot" -resize ${width}x${height}^ -gravity center -crop ${width}x${height}+0+0 +repage temp_screenshot.png
 
 # Step 2: Apply opacity to the cropped screenshot
-magick temp_screenshot.png -gravity center -background none -extent 640x480 -channel A -evaluate multiply 0.5 temp_screenshot_opacity.png
+magick temp_screenshot.png -gravity center -background none -extent ${width}x${height} -channel A -evaluate multiply 0.5 temp_screenshot_opacity.png
 
 # Step 3: Apply the mask to the screenshot
 magick temp_screenshot_opacity.png "$mask" -alpha on -compose DstIn -composite masked_screenshot.png
@@ -42,14 +66,14 @@ read -p "Do you want to add a shadow to the wheel icon? (Y/n): " add_shadow
 
 if [[ "$add_shadow" =~ ^[Yy]$ ]]; then
   # Add shadow to the wheel image
-  magick "$wheel" -resize 150x150 \
+  magick "$wheel" -resize ${wheel_size}x${wheel_size} \
     -alpha set -background none \
     \( +clone -background black -shadow 50x5+8+8 \) \
     +swap -background none -layers merge \
     wheel_with_shadow.png
 else
   # No shadow, just resize the wheel image
-  magick "$wheel" -resize 150x150 \
+  magick "$wheel" -resize ${wheel_size}x${wheel_size} \
     -alpha set -background none \
     wheel_with_shadow.png
 fi
