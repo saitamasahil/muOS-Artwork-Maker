@@ -16,7 +16,15 @@ While Scrappy can generate artwork automatically for many systems, this script o
   - For Linux (Fedora): `sudo dnf install zenity`
   - For macOS: `brew install zenity`
 
-## Screenshots
+## App Interface Screenshots
+![Screenshot0](screenshot/a0.png)
+![Screenshot1](screenshot/a1.png)
+![Screenshot2](screenshot/a2.png)
+![Screenshot3](screenshot/a3.png)
+![Screenshot4](screenshot/a4.png)
+![Screenshot5](screenshot/a5.png)
+
+## muOS Interface with Generated Artwork
 ![Screenshot0](screenshot/s0.png)
 ![Screenshot1](screenshot/s1.png)
 ![Screenshot2](screenshot/s2.png)
