@@ -59,9 +59,8 @@ resolution=$(zenity --list --title="Select Resolution" \
   FALSE "480x320" "3:2" \
   FALSE "640x480" "VGA (4:3)" \
   FALSE "720x480" "3:2" \
-  FALSE "800x480" "16:9" \
-  FALSE "1280x800" "16:10" \
-  --width=400 --height=500)  # Adjust width and height values here
+  FALSE "800x480" "WVGA (16:10)" \
+  --width=400 --height=450)
 
 if [[ -z "$resolution" ]]; then
   zenity --error --title="Error" --text="No resolution selected. Exiting."
@@ -70,17 +69,19 @@ fi
 
 # Set width, height, and wheel size based on resolution
 case $resolution in
-  "320x240") width=320; height=240; wheel_size=75 ;;
-  "480x320") width=480; height=320; wheel_size=100 ;;
-  "640x480") width=640; height=480; wheel_size=150 ;;
-  "720x480") width=720; height=480; wheel_size=160 ;;
-  "800x480") width=800; height=480; wheel_size=170 ;;
-  "1280x800") width=1280; height=800; wheel_size=250 ;;
-  *) 
+  "320x240") width=320; height=240; wheel_size=60; x_offset=$((width / 23)) ;;  # Adjusted offset for 320x240
+  "480x320") width=480; height=320; wheel_size=80; x_offset=$((width / 17)) ;;  # Adjusted offset for 480x320
+  "640x480") width=640; height=480; wheel_size=110; x_offset=$((width / 16)) ;; # Adjusted offset for 640x480
+  "720x480") width=720; height=480; wheel_size=110; x_offset=$((width / 7)) ;;  # Adjusted offset for 720x480
+  "800x480") width=800; height=480; wheel_size=100; x_offset=$((width / 4)) ;;  # Adjusted offset for 800x480
+  *)
     zenity --error --title="Error" --text="Invalid resolution selected. Exiting."
     exit 1
     ;;
 esac
+
+# Adjust offsets for wheel positioning to ensure it's inside the boundaries
+y_offset=$((height / 10))   # Adjusted for 10% of height
 
 # Step 5: Crop the base image to the selected resolution (center crop)
 magick base.png -resize ${width}x${height}^ -gravity center -crop ${width}x${height}+0+0 +repage temp_base.png
@@ -115,7 +116,7 @@ fi
 
 # Step 9: Composite the wheel onto the masked base image
 magick masked_base.png wheel_with_shadow.png \
-  -gravity southeast -geometry +20+20 -composite "$output_path"
+  -gravity southeast -geometry +${x_offset}+${y_offset} -composite "$output_path"
 
 # Step 10: Cleanup temporary files
 rm temp_base.png temp_base_opacity.png masked_base.png wheel_with_shadow.png

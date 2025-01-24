@@ -16,6 +16,15 @@ While Scrappy can generate artwork automatically for many systems, this script o
   - For Linux (Fedora): `sudo dnf install zenity`
   - For macOS: `brew install zenity`
 
+## Supported Resolutions
+The script supports the following output resolutions:
+
+- 320x240 (QVGA, 4:3)
+- 480x320 (3:2)
+- 640x480 (VGA, 4:3)
+- 720x480 (3:2)
+- 800x480 (WVGA, 16:9)
+
 ## muOS Interface with Generated Artwork
 ![Screenshot0](screenshot/s0.png)
 ![Screenshot1](screenshot/s1.png)
