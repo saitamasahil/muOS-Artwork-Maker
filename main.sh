@@ -69,19 +69,44 @@ fi
 
 # Set width, height, and wheel size based on resolution
 case $resolution in
-  "320x240") width=320; height=240; wheel_size=60; x_offset=$((width / 23)) ;;  # Adjusted offset for 320x240
-  "480x320") width=480; height=320; wheel_size=80; x_offset=$((width / 17)) ;;  # Adjusted offset for 480x320
-  "640x480") width=640; height=480; wheel_size=110; x_offset=$((width / 16)) ;; # Adjusted offset for 640x480
-  "720x480") width=720; height=480; wheel_size=110; x_offset=$((width / 7)) ;;  # Adjusted offset for 720x480
-  "800x480") width=800; height=480; wheel_size=100; x_offset=$((width / 4)) ;;  # Adjusted offset for 800x480
-  *)
-    zenity --error --title="Error" --text="Invalid resolution selected. Exiting."
-    exit 1
-    ;;
+"320x240")
+  width=320
+  height=240
+  wheel_size=80
+  x_offset=$((width / 33))
+  ;; # Adjusted offset for 320x240
+"480x320")
+  width=480
+  height=320
+  wheel_size=100
+  x_offset=$((width / 28))
+  ;; # Adjusted offset for 480x320
+"640x480")
+  width=640
+  height=480
+  wheel_size=130
+  x_offset=$((width / 28))
+  ;; # Adjusted offset for 640x480
+"720x480")
+  width=720
+  height=480
+  wheel_size=130
+  x_offset=$((width / 7))
+  ;; # Adjusted offset for 720x480
+"800x480")
+  width=800
+  height=480
+  wheel_size=130
+  x_offset=$((width / 43 * 10))
+  ;; # Adjusted offset for 800x480
+*)
+  zenity --error --title="Error" --text="Invalid resolution selected. Exiting."
+  exit 1
+  ;;
 esac
 
 # Adjust offsets for wheel positioning to ensure it's inside the boundaries
-y_offset=$((height / 10))   # Adjusted for 10% of height
+y_offset=$((height / 15)) # Adjusted for 15% of height
 
 # Step 5: Crop the base image to the selected resolution (center crop)
 magick base.png -resize ${width}x${height}^ -gravity center -crop ${width}x${height}+0+0 +repage temp_base.png
