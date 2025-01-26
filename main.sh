@@ -74,31 +74,31 @@ case $resolution in
   height=240
   wheel_size=80
   x_offset=$((width / 33))
-  ;; # Adjusted offset for 320x240
+  ;;
 "480x320")
   width=480
   height=320
   wheel_size=100
   x_offset=$((width / 28))
-  ;; # Adjusted offset for 480x320
+  ;;
 "640x480")
   width=640
   height=480
   wheel_size=130
   x_offset=$((width / 28))
-  ;; # Adjusted offset for 640x480
+  ;;
 "720x480")
   width=720
   height=480
   wheel_size=130
   x_offset=$((width / 7))
-  ;; # Adjusted offset for 720x480
+  ;;
 "800x480")
   width=800
   height=480
   wheel_size=130
   x_offset=$((width / 43 * 10))
-  ;; # Adjusted offset for 800x480
+  ;;
 *)
   zenity --error --title="Error" --text="Invalid resolution selected. Exiting."
   exit 1
@@ -108,13 +108,34 @@ esac
 # Adjust offsets for wheel positioning to ensure it's inside the boundaries
 y_offset=$((height / 15)) # Adjusted for 15% of height
 
-# Step 5: Crop the base image to the selected resolution (center crop)
-magick base.png -resize ${width}x${height}^ -gravity center -crop ${width}x${height}+0+0 +repage temp_base.png
+# Step 5: Ask the user to select a crop gravity
+crop_gravity=$(zenity --list --title="Select Crop Gravity" \
+  --text="Choose the gravity for cropping the image:" \
+  --radiolist \
+  --column="Select" --column="Gravity" --column="Description" \
+  TRUE "center" "Crop from the center (default)" \
+  FALSE "north" "Crop from the top-center" \
+  FALSE "south" "Crop from the bottom-center" \
+  FALSE "west" "Crop from the left-center" \
+  FALSE "east" "Crop from the right-center" \
+  FALSE "northwest" "Crop from the top-left corner" \
+  FALSE "northeast" "Crop from the top-right corner" \
+  FALSE "southwest" "Crop from the bottom-left corner" \
+  FALSE "southeast" "Crop from the bottom-right corner" \
+  --width=450 --height=500)
 
-# Step 6: Apply opacity to the cropped base image
+if [[ -z "$crop_gravity" ]]; then
+  zenity --error --title="Error" --text="No crop gravity selected. Exiting."
+  exit 1
+fi
+
+# Step 6: Crop the base image to the selected resolution (based on gravity)
+magick base.png -resize ${width}x${height}^ -gravity $crop_gravity -crop ${width}x${height}+0+0 +repage temp_base.png
+
+# Step 7: Apply opacity to the cropped base image
 magick temp_base.png -gravity center -background none -extent ${width}x${height} -channel A -evaluate multiply 0.5 temp_base_opacity.png
 
-# Step 7: Apply the mask to the base image
+# Step 8: Apply the mask to the base image
 mask="mask/3px_dither.png"
 if [[ ! -f "$mask" ]]; then
   zenity --error --title="Error" --text="Mask file not found at '$mask'. Please ensure the mask file exists at mask/3px_dither.png."
@@ -123,30 +144,26 @@ fi
 
 magick temp_base_opacity.png "$mask" -alpha on -compose DstIn -composite masked_base.png
 
-# Step 8: Ask if user wants to add shadow to the logo/icon/boxart
+# Step 9: Ask if user wants to add shadow to the logo/icon/boxart
 add_shadow=$(zenity --question --title="Add Shadow" --text="Do you want to add a shadow to the Logo/Icon/Boxart?")
 if [[ $? -eq 0 ]]; then
-  # Add shadow to the wheel image
   magick wheel.png -resize ${wheel_size}x${wheel_size} \
     -alpha set -background none \
     \( +clone -background black -shadow 50x5+8+8 \) \
     +swap -background none -layers merge \
     wheel_with_shadow.png
 else
-  # No shadow, just resize the wheel image
   magick wheel.png -resize ${wheel_size}x${wheel_size} \
     -alpha set -background none \
     wheel_with_shadow.png
 fi
 
-# Step 9: Composite the wheel onto the masked base image
+# Step 10: Composite the wheel onto the masked base image
 magick masked_base.png wheel_with_shadow.png \
   -gravity southeast -geometry +${x_offset}+${y_offset} -composite "$output_path"
 
-# Step 10: Cleanup temporary files
+# Step 11: Cleanup temporary files
 rm temp_base.png temp_base_opacity.png masked_base.png wheel_with_shadow.png
-
-# Cleanup the renamed PNG files (base.png and wheel.png)
 rm base.png wheel.png
 
 # Output success message
