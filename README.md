@@ -26,13 +26,7 @@ The script supports the following output resolutions:
 - 800x480 (WVGA, 16:9)
 
 ## muOS Interface with Generated Artwork
-![Screenshot0](screenshot/s0.png)
-![Screenshot1](screenshot/s1.png)
-![Screenshot2](screenshot/s2.png)
-![Screenshot3](screenshot/s3.png)
-![Screenshot4](screenshot/s4.png)
-![Screenshot5](screenshot/s5.png)
-![Screenshot6](screenshot/s6.png)
+![Showcase](screenshot/showcase.gif)
 
 ## How to Use
 1. **Prepare Your Files**:
